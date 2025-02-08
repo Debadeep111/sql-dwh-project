@@ -1,1 +1,40 @@
+# 🚀 Bronze Layer Data Loading Procedure
+
+## 🔹 Overview
+The `bronze.load_bronze` stored procedure automates the **ETL (Extract, Transform, Load) process** for loading data into the **Bronze Layer** of a Data Warehouse. It processes datasets from both **CRM** and **ERP** sources.
+
+---
+
+## 🔄 Workflow
+
+1. **⏳ Start Tracking Execution Time**
+   - Logs timestamps to measure processing duration.
+
+2. **📥 Loading Data from CRM**
+   - `bronze.crm_cust_info` ⏩ `cust_info.csv`
+   - `bronze.crm_prd_info` ⏩ `prd_info.csv`
+   - `bronze.crm_sales_details` ⏩ `sales_details.csv`
+
+3. **📥 Loading Data from ERP**
+   - `bronze.erp_cust_az12` ⏩ `cust_az12.csv` (Loaded twice—potential redundancy!)
+   - `bronze.erp_loc_a101` ⏩ `loc_a101.csv`
+
+4. **⏳ Logging Time Taken for Each Table**
+   - Uses `DATEDIFF(second, @start_time, @end_time)`
+
+5. **✅ Completion**
+   - Logs total execution time for the Bronze Layer.
+
+---
+
+## 🛑 Potential Improvements
+🔸 **Duplicate Loading of `bronze.erp_cust_az12`** – Ensure this isn't redundant.  
+🔸 **Error Handling** – Add `TRY...CATCH` blocks for failure recovery.  
+🔸 **Dynamic File Paths** – Use configurable parameters instead of hardcoded file paths.
+
+---
+
+💾 **To Execute the Procedure:**  
+```sql
+EXEC bronze.load_bronze;
 
